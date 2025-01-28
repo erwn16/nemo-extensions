@@ -37,6 +37,9 @@ from gi.repository import GObject, Gdk, Gio, Gtk
 gi.require_version('Nemo', '3.0')
 from gi.repository import Nemo
 
+# Import the gettext function and alias it as _
+from gettext import gettext as _
+
 try:
     gi.require_version('Notify', '0.7')
     from gi.repository import Notify
@@ -193,4 +196,5 @@ class PastebinitExtension(GObject.GObject, Nemo.MenuProvider, Nemo.NameAndDescPr
                 Gtk.main_iteration()
 
     def get_name_and_desc(self):
-        return [("Nemo Pastebin:::Send files to a paste service via the context menu:::nemo-pastebin-configurator")]
+        description = _("Send files to a paste service via the context menu")
+        return [(f"nemo-pastebin:::{description}:::nemo-pastebin-configurator")]

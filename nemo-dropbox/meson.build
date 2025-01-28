@@ -1,7 +1,7 @@
 project('nemo-dropbox',
     'c',
-    version: '5.4.1',
-    meson_version: '>=0.49.0'
+    version: '6.4.0',
+    meson_version: '>=0.56.0'
 )
 
 project_url = 'https://github.com/linuxmint/nemo-extensions'
@@ -16,7 +16,7 @@ config = configuration_data()
 # Find libnemo-extensions
 
 libnemo = dependency('libnemo-extension', version: '>=2.0.0')
-libnemo_extension_dir = libnemo.get_pkgconfig_variable('extensiondir')
+libnemo_extension_dir = libnemo.get_variable(pkgconfig: 'extensiondir')
 libnemo_extension_ver = libnemo.version().split('.')
 
 config.set('NEMO_VERSION_MAJOR', libnemo_extension_ver[0])
@@ -30,6 +30,7 @@ glib = dependency('glib-2.0', version: '>=2.14.0')
 
 project_datadir = get_option('datadir') / meson.project_name()
 
+config.set_quoted('GETTEXT_PACKAGE', 'nemo-extensions')
 config.set_quoted('PACKAGE_STRING', meson.project_name() )
 config.set_quoted('EMBLEMDIR',      get_option('prefix') / project_datadir / 'emblems')
 config.set_quoted('NEMOICONDIR',    get_option('datadir') / 'nemo-dropbox' / 'icons')

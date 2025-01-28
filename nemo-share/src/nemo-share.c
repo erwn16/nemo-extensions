@@ -32,8 +32,6 @@
 #include <libnemo-extension/nemo-property-page-provider.h>
 #include <libnemo-extension/nemo-name-and-desc-provider.h>
 
-#include <libcinnamon-desktop/gnome-installer.h>
-
 #include "nemo-share.h"
 
 #include <glib/gi18n-lib.h>
@@ -896,7 +894,7 @@ create_property_page (NemoFileInfo *fileinfo)
     gtk_widget_show (page->samba_infobar);
     gtk_widget_set_sensitive (page->switch_share_folder, FALSE);
 
-    if (!g_find_program_in_path("mint-remove-appllication")) {
+    if (!g_find_program_in_path("aptk")) {
         gtk_widget_hide (page->install_samba_button);
     }
   } else {
@@ -1111,8 +1109,9 @@ static GList *
 nemo_share_get_name_and_desc (NemoNameAndDescProvider *provider)
 {
     GList *ret = NULL;
-
-    ret = g_list_append (ret, ("Nemo Share:::Allows you to quickly share a folder from the context menu"));
+    gchar *string = g_strdup_printf ("nemo-share:::%s",
+      _("Allows you to quickly share a folder from the context menu"));
+    ret = g_list_append (ret, (string));
 
     return ret;
 }

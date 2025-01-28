@@ -1,7 +1,7 @@
 project('nemo-share',
     'c',
-    version: '5.4.1',
-    meson_version: '>=0.49.0'
+    version: '6.4.0',
+    meson_version: '>=0.56.0'
 )
 
 project_url = 'https://github.com/linuxmint/nemo-extensions'
@@ -16,7 +16,7 @@ config = configuration_data()
 # Find libnemo-extensions
 
 libnemo = dependency('libnemo-extension', version: '>=2.0.0')
-libnemo_extension_dir = libnemo.get_pkgconfig_variable('extensiondir')
+libnemo_extension_dir = libnemo.get_variable(pkgconfig: 'extensiondir')
 libnemo_extension_ver = libnemo.version().split('.')
 
 config.set('NEMO_VERSION_MAJOR', libnemo_extension_ver[0])
@@ -36,7 +36,7 @@ config.set_quoted('INTERFACES_DIR', get_option('prefix') / interfaces_dir)
 ################################################################################
 # Specific stuff to the extension
 
-gettext_package = meson.project_name()
+gettext_package = 'nemo-extensions'
 config.set_quoted('GETTEXT_PACKAGE', gettext_package)
 config.set_quoted('NEMO_SHARE_LOCALEDIR', get_option('prefix') / get_option('localedir'))
 config.set_quoted('PKGDATADIR', get_option('prefix')/get_option('datadir')/meson.project_name())
@@ -52,5 +52,4 @@ configure_file(
 rootInclude = include_directories('.')
 
 subdir('interfaces')
-subdir('po')
 subdir('src')

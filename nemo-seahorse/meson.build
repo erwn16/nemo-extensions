@@ -1,7 +1,7 @@
 project('nemo-seahorse',
   'c',
-  version: '5.4.1',
-  meson_version: '>=0.49.0'
+  version: '6.4.0',
+  meson_version: '>=0.56.0'
 )
 
 project_url = 'https://github.com/linuxmint/nemo-extensions'
@@ -17,7 +17,7 @@ config = configuration_data()
 # Find libnemo-extensions
 
 libnemo = dependency('libnemo-extension', version: '>=2.0.0')
-libnemo_extension_dir = libnemo.get_pkgconfig_variable('extensiondir')
+libnemo_extension_dir = libnemo.get_variable(pkgconfig: 'extensiondir')
 libnemo_extension_ver = libnemo.version().split('.')
 
 config.set('NEMO_VERSION_MAJOR', libnemo_extension_ver[0])
@@ -47,12 +47,12 @@ if get_option('gpg-check')
     accepted_versions = [ '=1.2', '=1.4', '=2.0', '>=2.1', ]
 
     gpg = find_program('gpg', 'gpg2')
-    gpg_ver = run_command(gpg, '--version').stdout().split(' ')[2]
+    gpg_ver = run_command([gpg, '--version'], check: true).stdout().split(' ')[2]
 
     accepted = false
     foreach ver : accepted_versions
         if gpg_ver.version_compare(ver)
-        accepted = true
+            accepted = true
         endif
     endforeach
     if not accepted
@@ -60,14 +60,7 @@ if get_option('gpg-check')
     endif
 endif
 
-libgpgme = meson.get_compiler('c').find_library('gpgme')
-gpgme_config = find_program('gpgme-config')
-gpgme_ver = run_command(gpgme_config, '--version').stdout().strip()
-gpgme_ver_required = '>=1.2.0'
-if not gpgme_ver.version_compare(gpgme_ver_required)
-    error('GPGME version @0@ was found, @1@ is required.'.format(
-        gpgme_ver, gpgme_ver_required))
-endif
+libgpgme = dependency('gpgme', version: '>=1.2.0')
 
 ################################################################################
 # Generic stuff
@@ -91,7 +84,6 @@ configure_file(
 
 rootInclude = include_directories('.')
 
-subdir('po')
 subdir('data')
 subdir('nemo-ext')
 subdir('tool')

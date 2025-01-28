@@ -13,6 +13,9 @@ from mutagen.easyid3 import EasyID3
 from mutagen.mp3 import MP3
 from mutagen.flac import FLAC, StreamInfo
 
+# Import the gettext function and alias it as _
+from gettext import gettext as _
+
 class AudioPropertyPage(GObject.GObject, Nemo.PropertyPageProvider, Nemo.NameAndDescProvider):
 
     def get_property_pages(self, files):
@@ -192,4 +195,5 @@ class AudioPropertyPage(GObject.GObject, Nemo.PropertyPageProvider, Nemo.NameAnd
         ]
 
     def get_name_and_desc(self):
-        return [("Nemo Audio Tab:::View audio tag information from the properties tab")]
+        description = _("View audio tag information from the properties tab")
+        return [(f"nemo-audio-tab:::{description}")]

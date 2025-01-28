@@ -1,3 +1,39 @@
+nemo-pastebin (6.4.0) xia; urgency=medium
+
+  * 6.4.0
+
+ -- Clement Lefebvre <root@linuxmint.com>  Tue, 26 Nov 2024 12:54:36 +0000
+
+nemo-pastebin (6.2.0) wilma; urgency=medium
+
+  * 6.2.0
+
+ -- Clement Lefebvre <root@linuxmint.com>  Thu, 13 Jun 2024 11:50:50 +0100
+
+nemo-pastebin (6.0.1) virginia; urgency=medium
+
+  * 6.0.1
+
+ -- Clement Lefebvre <root@linuxmint.com>  Fri, 15 Dec 2023 15:49:59 +0000
+
+nemo-pastebin (6.0.0) virginia; urgency=medium
+
+  * 6.0.0
+
+ -- Clement Lefebvre <root@linuxmint.com>  Sun, 19 Nov 2023 14:33:20 +0000
+
+nemo-pastebin (5.8.0) victoria; urgency=medium
+
+  * 5.8.0
+
+ -- Clement Lefebvre <root@linuxmint.com>  Thu, 01 Jun 2023 14:10:40 +0100
+
+nemo-pastebin (5.6.0) vera; urgency=medium
+
+  * 5.6.0
+
+ -- Clement Lefebvre <root@linuxmint.com>  Fri, 18 Nov 2022 12:10:50 +0000
+
 nemo-pastebin (5.4.1) vanessa; urgency=medium
 
   * 5.4.1

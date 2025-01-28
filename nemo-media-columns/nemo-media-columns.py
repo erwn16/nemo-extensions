@@ -24,7 +24,8 @@
 # mtwebster: convert for use as a nemo extension
 import os
 import stopit
-
+import locale
+import gettext
 from urllib import parse
 import gi
 gi.require_version('GExiv2', '0.10')
@@ -37,14 +38,20 @@ from pymediainfo import MediaInfo
 # for reading image dimensions
 import PIL.Image
 # for reading pdf
-from PyPDF2 import PdfFileReader
+from pypdf import PdfReader
+
+# Import the gettext function and alias it as _
+from gettext import gettext as _
 
 import signal
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
-import gettext
-gettext.bindtextdomain("nemo-extensions")
-gettext.textdomain("nemo-extensions")
+# initialize i18n
+APP = 'nemo-extensions'
+LOCALE_DIR = "/usr/share/locale"
+locale.bindtextdomain(APP, LOCALE_DIR)
+gettext.bindtextdomain(APP, LOCALE_DIR)
+gettext.textdomain(APP)
 _ = gettext.gettext
 
 class FileExtensionInfo():
@@ -88,6 +95,11 @@ class ColumnExtension(GObject.GObject, Nemo.ColumnProvider, Nemo.InfoProvider, N
         print("nemo-media-columns: using a timeout of %.2f second(s) for file processing" % self.timeout)
 
     def get_columns(self):
+        locale.bindtextdomain(APP, LOCALE_DIR)
+        gettext.bindtextdomain(APP, LOCALE_DIR)
+        gettext.textdomain(APP)
+        _ = gettext.gettext
+
         return (
             Nemo.Column(name="NemoPython::title_column",attribute="title",label=_("Title"),description=""),
             Nemo.Column(name="NemoPython::album_column",attribute="album",label=_("Album"),description=""),
@@ -350,12 +362,12 @@ class ColumnExtension(GObject.GObject, Nemo.ColumnProvider, Nemo.InfoProvider, N
 
             try:
                 with open(filename, "rb") as f:
-                    pdf = PdfFileReader(f)
-                    try: info.title = pdf.getDocumentInfo().title
+                    pdf = PdfReader(f)
+                    try: info.title = pdf.metadata.title
                     except: pass
-                    try: info.artist = pdf.getDocumentInfo().author
+                    try: info.artist = pdf.metadata.author
                     except: pass
-                    try: info.pages = str(pdf.getNumPages())
+                    try: info.pages = str(len(pdf.pages))
                     except: pass
             except:
                 pdf_good = False
@@ -366,4 +378,5 @@ class ColumnExtension(GObject.GObject, Nemo.ColumnProvider, Nemo.InfoProvider, N
         return FileExtensionInfo()
 
     def get_name_and_desc(self):
-        return [("Nemo Media Columns:::Provides additional columns for the list view:::nemo-media-columns-prefs")]
+        description = _("Provides additional columns for the list view")
+        return [(f"nemo-media-columns:::{description}:::nemo-media-columns-prefs")]

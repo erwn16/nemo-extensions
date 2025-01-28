@@ -25,6 +25,9 @@ import signal
 from gi.repository import GLib
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
+# Import the gettext function and alias it as _
+from gettext import gettext as _
+
 import gi
 gi.require_version('Nemo', '3.0')
 from gi.repository import Nemo, GObject, Gio
@@ -165,4 +168,5 @@ class NemoCompareExtension(GObject.GObject, Nemo.MenuProvider, Nemo.NameAndDescP
         return []
 
     def get_name_and_desc(self):
-        return [("Nemo Compare:::Allows file comparison from the context menu:::nemo-compare-preferences")]
+        description = _("Allows file comparison from the context menu")
+        return [(f"nemo-compare:::{description}:::nemo-compare-preferences")]
